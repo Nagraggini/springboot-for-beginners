@@ -341,8 +341,8 @@ Name: Render Database
 
 Host name/address: dpg-d69k87buibrs739i5fu0-a.frankfurt-postgres.render.com
 
-A hostname az external database url részén látod: 
-postgresql://database_olpd_user:sekoojWQ5YUGrgC3080avcnkVvgY4LSQ@dpg-d69k87buibrs739i5fu0-a.frankfurt-postgres.render.com/database_olpd
+A hostname-t az external database url részén látod
+postgresql://database_olpd_user:sekoojWQ5YUGrgC3080avcnkVvgY4LSQ@**dpg-d69k87buibrs739i5fu0-a.frankfurt-postgres.render.com**/database_olpd
 
 Port: 5432
 Maintenance database: Database
