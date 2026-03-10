@@ -223,7 +223,7 @@ mvn spring-boot:run (elindítja a szervert)
 
 A terminál melletti port fülön is láthatod a webcímet.
 
-## Offline
+## Egyik módszer: Offline
 
 cmd -> mvn clean install (Létrehozza a target mappát és előkészíti a buildet. A jar fájl olyan, mint egy sima zip fájl, csak jar a kiterjesztése.)
 
@@ -234,7 +234,7 @@ cmd -> java -jar demo-0.0.1-SNAPSHOT
 
 böngésző: localhost:8080
 
-## Vagy offline másik módszer
+## Másik módszer?: Offline 
 
 cmd -> mvn clean install (Létrehozza a target mappát és előkészíti a buildet. A jar fájl olyan, mint egy sima zip fájl, csak jar a kiterjesztése.)
 
@@ -290,7 +290,10 @@ A render.com-on hozz létre egy Postgres-t. A név legyen database. A verzió 16
 
 Miután elkészült szükséged lesz az External Database URL-re, Username, Database, Password-re.
 
-Terminálban, csatlakoztasd Postgres-t a render.com-os adatbázissal:
+# Egyik módszer: Adatbázishoz csatlakozás terminálban
+
+Terminálban, csatlakoztasd Postgres-t a render.com-os adatbázissal
+
 psql -h "@-utáni résztől....frankfurt-postgres.render.com-ig" -U "Username" -d "Database"
 Entert nyomj.
 pl.: psql -h dpg-d69k87buibrs739i5fu0-a.frankfurt-postgres.render.com -U database_olpd_user -d database_olpd
@@ -330,7 +333,7 @@ INSERT INTO animals (name,weight) VALUES ('Cirma',15);
 Kilistázás:
 SELECT \* FROM animals;
 
-### Adatbázishoz való csatlakozás
+# Másik módszer: Adatbázishoz való csatlakozás pgAdmin-on
 
 https://dashboard.render.com/
 Menj rá az adatbázisodra. -> Info -> És látod a username és password-ot ezeket kell lentebb beírnod.
@@ -355,6 +358,29 @@ Adatbázis teszt:
 Bal oldalt -> Databases → postgres -> SELECT version();
 Ha visszaad egy PostgreSQL verziót → működik.
 
+## Táblák lekérdezése
+
+Object Explorer -> Render Database -> database_olpd (render.com-ról Database) -> Rajta jobb klikk -> Query Tool
+
+SELECT tablename 
+FROM pg_tables 
+WHERE schemaname = 'public';
+
+Aztán felül start ikon.
+
+## Adatok lekérdezése a táblákból
+
+SELECT * 
+FROM dog_owner;
+
+## Új tábla létrehozása a pgAdminban
+
+CREATE TABLE dog_owner (
+    id SERIAL PRIMARY KEY,           -- Automatikusan növekvő azonosító
+    first_name VARCHAR(100) NOT NULL, -- Keresztnév (nem lehet üres)
+    last_name VARCHAR(100) NOT NULL   -- Vezetéknév (nem lehet üres)
+);
+
 # Maven dependenciák
 
 ### Egyik módszer
@@ -367,6 +393,10 @@ Utána cmd -> mvn clean install
 ### Másik módszer
 
 A vs code-ban a pom.xml-hez adjuk hozzá a postgresql drivert. Jobb klikk a pom.xml-en -> Add Starts.. -> Postgresql Driver -> Enter -> Proceed.
+
+TODO: Itt tartasz:
+https://www.youtube.com/watch?v=ATP4LPfRLuU&list=PL92V_WHHt2CnXaUIA9T2ww7peDK4lqmZj&index=26
+https://www.skillversum.com/note/view/a01089e710008f09cfee48cd6dd7a840e049f5f8
 
 
 
