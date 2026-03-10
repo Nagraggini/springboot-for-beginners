@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.ownproject</groupId>
 	<artifactId>springboot2</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>springboot2</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -49,6 +49,13 @@
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Source: https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+	<dependency>
+		<groupId>org.postgresql</groupId>
+		<artifactId>postgresql</artifactId>
+		<version>42.7.10</version>
+		<scope>compile</scope>
+	</dependency>
 	</dependencies>
 
 	<build>

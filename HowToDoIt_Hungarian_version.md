@@ -31,6 +31,17 @@ CRUD:
 
 A Java Enterprise Edition (EE) és a Spring is keretrendszer. Manapság Java EE-ben fejlesztenek a nagy vállalatok, a Spring-et start-up-ok és kisvállalkozások használják. Nagyon hasonlít a kettő egymásra, ha az egyiket megtanulod a másik is könnyen fog menni.
 
+# Gradle Androidhoz
+
+Az Android fejlesztésben a Gradle végzi például:
+
+az app fordítását (build)
+függőségek letöltését (libraryk)
+APK / AAB csomag készítését
+tesztek futtatását
+
+Az Android fejlesztésnél általában a Android Studio automatikusan tartalmazza és kezeli a Gradle-t.
+
 # Maven
 
 Az Apache Maven egy alkalmazásfejlesztést menedzselő és automatizáló eszköz Java programokhoz.
@@ -201,14 +212,162 @@ A projektet beimporáljuk a vs code-ban (File -> Open Folder)
 
 # Elindításhoz
 
-cmd -> mvn clean (Létrehozza a target mappát és a buildet.)
+## Github codenamespace
 
-Github codenamespace
 Terminálban:
 sdk install java 17.0.10-ms
-mvn spring-boot:run 
 
-export DB_URL='jdbc:postgresql://dpg-d69k87buibrs739i5fu0-a.frankfurt-postgres.render.com:5432/database_olpd'
-export DB_USER='database_olpd_user'
-export DB_PASS='sekoojWQ5YUGrgC3080avcnkVvgY4LSQ'
-mvn spring-boot:run
+cmd -> mvn clean install (Létrehozza a target mappát és előkészíti a buildet. A jar fájl olyan, mint egy sima zip fájl, csak jar a kiterjesztése.)
+
+mvn spring-boot:run (elindítja a szervert)
+
+A terminál melletti port fülön is láthatod a webcímet.
+
+## Offline
+
+cmd -> mvn clean install (Létrehozza a target mappát és előkészíti a buildet. A jar fájl olyan, mint egy sima zip fájl, csak jar a kiterjesztése.)
+
+Keresd meg a fájlkezelőben a projekted target mappáját. pl: C:\Users\Doc\demo\target>
+Az korábban megadott artifact lesz a mappaneve. 
+Aztán a felső beírós sávba írd be, hogy cmd, így rögtön abban a mappában fog elindulni a terminál.
+cmd -> java -jar demo-0.0.1-SNAPSHOT
+
+böngésző: localhost:8080
+
+## Vagy offline másik módszer
+
+cmd -> mvn clean install (Létrehozza a target mappát és előkészíti a buildet. A jar fájl olyan, mint egy sima zip fájl, csak jar a kiterjesztése.)
+
+Az artifact neve lesz elől. main/java ...
+DemoApplication.java fájl nyisd meg és start.
+
+böngésző: localhost:8080
+
+Leállítás: Terminálban: ctrl+c
+
+# Verzió növelése
+
+A pom.xml fájlban változtasd meg ezt:
+<version>0.0.2-SNAPSHOT</version>
+
+# JDBC
+
+Java Database Connectivity, ez egy szabvány/api, hogy hogyan kell egy adatbázisra rákapcsolódni, ami lehet mySQL, PostgreSQL.
+
+Adatbázisok
+
+Az adatbázisokat alapvetően két fő kategóriába soroljuk:
+
+- strukturált adatbázisok
+- nem strukturált adatbázisok (A kezdők struktúráltat használnak, lekérdezéshez pedig sql-t.)
+
+Postgresql-t [innen](https://www.postgresql.org/download/) tudod letölteni. Verzió: 16.11 Egyezzen lentebb létrehozott render.com-os adatbázissal.
+
+A PostgreSQL működhet:
+
+- szerverként (adatbázis szerver)
+- kliensként (adatbázis kezelő eszköz)
+
+Ebben az esetben neked csak a kliensre lesz szükséged, mert az adatbázis szerver a render.com platformon fog futni, és ahhoz távolról fogsz csatlakozni.
+
+### Windows-on:
+
+Környezeti változó beállítása: PowerShell:setx PATH "$env:PATH;C:\Program Files\PostgreSQL\16\bin" 
+
+Lecsekkoljuk a verziót -> Cmd:cd "C:\Program Files\PostgreSQL\16\bin"psql --version Terminálban.
+
+### Linux-on:
+
+Terminálban:
+sudo apt update
+sudo apt install postgresql
+
+[Postgesql hivatalos honlapja](https://www.postgresql.org/download/linux/ubuntu/)
+
+## Adatbázis létrehozása a Render.com-on
+
+A render.com-on hozz létre egy Postgres-t. A név legyen database. A verzió 16-os, a lényeg hogy egyezzen a gépre feltepített verzióval. Region: EU Instance Type: Free -> Create Database
+
+Miután elkészült szükséged lesz az External Database URL-re, Username, Database, Password-re.
+
+Terminálban, csatlakoztasd Postgres-t a render.com-os adatbázissal:
+psql -h "@-utáni résztől....frankfurt-postgres.render.com-ig" -U "Username" -d "Database"
+Entert nyomj.
+pl.: psql -h dpg-d69k87buibrs739i5fu0-a.frankfurt-postgres.render.com -U database_olpd_user -d database_olpd
+A jelszónak az oldalon lévő password-t másold be. Nem fogja mutatni. Majd entert nyomj.
+
+Adatbázis létrehozása a terminálban:
+CREATE TABLE animals (uid SERIAL, name VARCHAR(255), weight INTEGER);
+
+## \dt-vel kilistázzuk a kettő táblát:
+
+```bash
+               List of relations
+
+Schema | Name | Type | Owner
+--------+----------+-------+--------------------
+public | animals | table | database_olpd_user
+
+```
+
+## \d animals-vel a tábla struktúráját láthatod:
+
+```bash
+                                    Table "public.animals"
+ Column |          Type          | Collation | Nullable |               Default
+--------+------------------------+-----------+----------+--------------------------------------
+ uid    | integer                |           | not null | nextval('animals_uid_seq'::regclass)
+ name   | character varying(255) |           |          |
+ weight | integer                |           |          |
+
+```
+
+A "q"-val tudsz kilépni belőle.
+
+Így tudsz hozzáadni plussz sort (objektum):
+INSERT INTO animals (name,weight) VALUES ('Cirma',15);
+
+Kilistázás:
+SELECT \* FROM animals;
+
+### Adatbázishoz való csatlakozás
+
+https://dashboard.render.com/
+Menj rá az adatbázisodra. -> Info -> És látod a username és password-ot ezeket kell lentebb beírnod.
+
+win -> pgAdmin 4
+Bal oldalon Server -> Jobb klikk → Register → Server
+Name: Render Database
+
+Host name/address: dpg-d69k87buibrs739i5fu0-a.frankfurt-postgres.render.com
+
+A hostname az external database url részén látod: 
+postgresql://database_olpd_user:sekoojWQ5YUGrgC3080avcnkVvgY4LSQ@dpg-d69k87buibrs739i5fu0-a.frankfurt-postgres.render.com/database_olpd
+
+Port: 5432
+Maintenance database: Database
+Username: Username
+Password: Password
+
+Save password: ON
+
+Adatbázis teszt:
+Bal oldalt -> Databases → postgres -> SELECT version();
+Ha visszaad egy PostgreSQL verziót → működik.
+
+# Maven dependenciák
+
+### Egyik módszer
+
+[Maven könyvtár](https://mvnrepository.com/search?q=postgresql)
+Mindig a legfrissebbet használd. Katt a verzióra és másold ki a legfrissebb postgresql dependenciát a pom.xml fájlodba a </dependencies> elé.
+
+Utána cmd -> mvn clean install
+
+### Másik módszer
+
+A vs code-ban a pom.xml-hez adjuk hozzá a postgresql drivert. Jobb klikk a pom.xml-en -> Add Starts.. -> Postgresql Driver -> Enter -> Proceed.
+
+
+
+[Pályakezdő fullstack tutorial csomag](https://www.skillversum.com/note/view/c256d513dd9e6f970aa3daa5ded7496b38d01e78)
