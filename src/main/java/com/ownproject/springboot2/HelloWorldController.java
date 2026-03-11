@@ -12,7 +12,7 @@ public class HelloWorldController {
     @RequestMapping("/") // Lehet GetMapping is.
     public String helloWorld() {
 
-        return "index";
+        return "index"; // Betöltjük az index.html fájlt.
     }
 
 }

@@ -210,6 +210,27 @@ Thymeleaf (szerver oldalon tudunk html fájlokkal mokolni.)
 
 A projektet beimporáljuk a vs code-ban (File -> Open Folder)
 
+main/java/com/ownproject/springboot2/HelloWorldController.java
+
+```bash
+// Ez egy irányító, és megjelöltük ezt az osztályt, ő tud a böngészővel kommunikálni.
+@Controller
+public class HelloWorldController {
+
+    //Ha beírod a weboldalad nevét, akkor egyből az index fog megjelenni.
+    //@RequestMapping("/") annotációval semmi mást nem érünk el, hogy a weboldaluk "/" részénél lefut a megjelölt metódusunk, és az jelen helyzetben visszaadja az index.html képernyőnket. 
+    @RequestMapping("/") // Lehet GetMapping is.
+    public String helloWorld() {
+
+        return "index"; // Betöltjük az index.html fájlt.
+    }
+
+}
+```
+
+Hozd létre az index fájlt ide és másold is be a tartalmát:
+main/resource/templates/index.html
+
 # Elindításhoz
 
 ## Github codenamespace
@@ -234,7 +255,7 @@ cmd -> java -jar demo-0.0.1-SNAPSHOT
 
 böngésző: localhost:8080
 
-## Másik módszer?: Offline 
+## Másik módszer: Offline 
 
 cmd -> mvn clean install (Létrehozza a target mappát és előkészíti a buildet. A jar fájl olyan, mint egy sima zip fájl, csak jar a kiterjesztése.)
 
@@ -368,11 +389,6 @@ WHERE schemaname = 'public';
 
 Aztán felül start ikon.
 
-## Adatok lekérdezése a táblákból
-
-SELECT * 
-FROM dog_owner;
-
 ## Új tábla létrehozása a pgAdminban
 
 CREATE TABLE dog_owner (
@@ -380,6 +396,11 @@ CREATE TABLE dog_owner (
     first_name VARCHAR(100) NOT NULL, -- Keresztnév (nem lehet üres)
     last_name VARCHAR(100) NOT NULL   -- Vezetéknév (nem lehet üres)
 );
+
+## Adatok lekérdezése a táblákból
+
+SELECT * 
+FROM dog_owner;
 
 # Maven dependenciák
 
@@ -394,10 +415,13 @@ Utána cmd -> mvn clean install
 
 A vs code-ban a pom.xml-hez adjuk hozzá a postgresql drivert. Jobb klikk a pom.xml-en -> Add Starts.. -> Postgresql Driver -> Enter -> Proceed.
 
+# Alap fájl a JDBC-hez
+
+main/java/com/ownproject/springboot2/Springboot2Application.java
+
+
 TODO: Itt tartasz:
 https://www.youtube.com/watch?v=ATP4LPfRLuU&list=PL92V_WHHt2CnXaUIA9T2ww7peDK4lqmZj&index=26
 https://www.skillversum.com/note/view/a01089e710008f09cfee48cd6dd7a840e049f5f8
-
-
 
 [Pályakezdő fullstack tutorial csomag](https://www.skillversum.com/note/view/c256d513dd9e6f970aa3daa5ded7496b38d01e78)
