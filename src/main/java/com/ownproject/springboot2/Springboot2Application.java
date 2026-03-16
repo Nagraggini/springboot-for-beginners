@@ -47,7 +47,7 @@ public class Springboot2Application {
 			//A prepared statement jobb.
 
 		} catch (SQLException e) {
-			// TODO: handle exception
+			
 		}
 		
 
