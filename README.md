@@ -23,4 +23,6 @@ Célja, hogy érthetően elmagyarázza, hogyan lehet modern, Java alapú webalka
 
 ## Live demo
 
-🔗 https://springboot-for-beginners.onrender.com
+🔗 [Látogasd meg az oldalamat.](https://springboot-for-beginners.onrender.com)
+
+[Kezdőknek szóló blogom.](https://nagraggini-blog.onrender.com/)
