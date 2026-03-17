@@ -1,3 +1,52 @@
+# Miről szól ez a projekt?
+
+Ez a projekt a Spring Boot alapjait mutatja be kezdők számára, lépésről lépésre.
+Célja, hogy érthetően elmagyarázza, hogyan lehet modern Java alapú webalkalmazásokat készíteni a Spring Boot segítségével.
+
+A projekt során megismerheted:
+- az alapvető konfigurációt
+- a REST API készítését
+- a vezérlők (Controller) működését
+- az egyszerű adatkezelést
+
+# Tartalomjegyzék
+
+- [Miről szól ez a projekt?](#miről-szól-ez-a-projekt)
+- [Tartalomjegyzék](#tartalomjegyzék)
+- [Kezdőknek](#kezdőknek)
+- [Források](#források)
+- [Általános infók](#általános-infók)
+- [Gradle Androidhoz](#gradle-androidhoz)
+- [Maven](#maven)
+  - [Maven telepítése](#maven-telepítése)
+  - [Maven parancsok](#maven-parancsok)
+- [Projekt létrehozása](#projekt-létrehozása)
+  - [Import](#import)
+- [Elindításhoz](#elindításhoz)
+  - [Github codenamespace](#github-codenamespace)
+  - [Egyik módszer: Offline](#egyik-módszer-offline)
+  - [Másik módszer: Offline](#másik-módszer-offline)
+- [Verzió növelése](#verzió-növelése)
+- [JDBC](#jdbc)
+    - [Windows-on:](#windows-on)
+    - [Linux-on:](#linux-on)
+  - [Adatbázis létrehozása a Render.com-on](#adatbázis-létrehozása-a-rendercom-on)
+- [Egyik módszer: Adatbázishoz csatlakozás terminálban](#egyik-módszer-adatbázishoz-csatlakozás-terminálban)
+  - [\\dt-vel kilistázzuk a kettő táblát:](#dt-vel-kilistázzuk-a-kettő-táblát)
+  - [\\d animals-vel a tábla struktúráját láthatod:](#d-animals-vel-a-tábla-struktúráját-láthatod)
+- [Másik módszer: Adatbázishoz való csatlakozás pgAdmin-on](#másik-módszer-adatbázishoz-való-csatlakozás-pgadmin-on)
+  - [Táblák lekérdezése](#táblák-lekérdezése)
+  - [Új tábla létrehozása a pgAdminban](#új-tábla-létrehozása-a-pgadminban)
+  - [Adatok lekérdezése a táblákból](#adatok-lekérdezése-a-táblákból)
+- [Maven dependenciák](#maven-dependenciák)
+    - [Egyik módszer](#egyik-módszer)
+    - [Másik módszer](#másik-módszer)
+- [Alap fájl a JDBC-hez](#alap-fájl-a-jdbc-hez)
+- [Dockerfile](#dockerfile)
+  - [Dockerfile tartalma](#dockerfile-tartalma)
+- [Projekt feltöltése githubra és render.com-ra](#projekt-feltöltése-githubra-és-rendercom-ra)
+
+
 # Kezdőknek
 
 [Saját webfejlesztői alapismeretekről szóló blogom](https://nagraggini.github.io/Web-practising-and-fun/Web_Development/Practising/1-HTML%20Practising/2-Blog.html)
@@ -418,6 +467,62 @@ A vs code-ban a pom.xml-hez adjuk hozzá a postgresql drivert. Jobb klikk a pom.
 # Alap fájl a JDBC-hez
 
 main/java/com/ownproject/springboot2/Springboot2Application.java
+
+# Dockerfile
+
+Az alkalmazás győkér könyvtárába hozd létre egyből a Dockerfile, ne adj neki kiterjesztést, txt-t sem.
+
+Ez a Dockerfile a Spring Boot alkalmazás konténerizálására szolgál.
+
+A célja, hogy az alkalmazásodat lefordítsa és futtassa egy Docker konténerben, így bárhol ugyanúgy működjön (Render, saját gép, stb.).
+
+Ez az egész Dockerfile arra kell, hogy:
+
+- lefordítsa a Spring Boot projektet
+- JAR fájlt készítsen
+- elindítsa egy konténerben
+
+## Dockerfile tartalma
+
+```
+# Build stage: a projekt lefordítása és JAR csomagolása Maven segítségével.
+# Java verzió a pom.xml-ben van beállítva (Java 17).
+
+# A from sor létrehoz egy ideiglenes konténert.
+FROM maven:3.8.5-openjdk-17 AS build
+# Fordításra szolgál.
+WORKDIR /app
+COPY . .
+
+# Lefordítja a Java kódot és létrehozza a JAR fájlt. Ezt a jar fájlt használjuk lentebb a copy sorban.
+RUN mvn clean package -DskipTests
+
+# Run stage: ez a konténer fogja futtatni az alkalmazást.
+# Java verzió a pom.xml-ben van beállítva (Java 17).
+FROM openjdk:17.0.1-jdk-slim
+WORKDIR /app
+
+# Ez átmásolja a fentebb létrehozott JAR fájlt a build stage-ből a run stage-be (/app/springboot2.jar).
+COPY --from=build /app/target/*.jar springboot2.jar
+
+# A Spring Boot alkalmazás a 8080-as porton fut.
+EXPOSE 8080
+
+# Alkalmazás futtatása. ENTRYPOINT: a konténer indításakor a JAR futtatása.
+ENTRYPOINT ["java","-jar","springboot2.jar"]
+```
+
+# Projekt feltöltése githubra és render.com-ra
+
+https://github.com/-ra regisztrálj be.
+
+Github Desktop-t töltsd le. Utána File -> Add local repository-> keresd meg a mappát, ahova az új projektet hoztad létre. -> Add repository -> Create a repoditory -> Töltsd ki az űrlapot. -> Create repository
+
+render.com regisztrálj -> Kösd össze a github fiókoddal.
+
+New -> Web Service -> Válaszd ki a listából a progjekt nevét (springboot-for-beginners
+Language: Docker
+-> Deploy web service Kb 15 percig eltart a deploy.
 
 
 TODO: Itt tartasz:
