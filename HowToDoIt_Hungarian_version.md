@@ -9,6 +9,10 @@ A projekt során megismerheted:
 - a vezérlők (Controller) működését
 - az egyszerű adatkezelést
 
+![alt text](assets/SzoftverarchitekturaEsFogalmiOsszefoglalo.png)
+
+TODO részletes leírás készítése a képhez.
+
 # Tartalomjegyzék
 
 - [Miről szól ez a projekt?](#miről-szól-ez-a-projekt)
@@ -356,7 +360,7 @@ sudo apt install postgresql
 
 ## Adatbázis létrehozása a Render.com-on
 
-A render.com-on hozz létre egy Postgres-t. A név legyen database. A verzió 16-os, a lényeg hogy egyezzen a gépre feltepített verzióval. Region: EU Instance Type: Free -> Create Database
+A render.com-on "+ New" -> hozz létre egy Postgres-t. A név legyen database. A verzió 16-os, a lényeg hogy egyezzen a gépre feltepített verzióval. Region: EU Instance Type: Free -> Create Database
 
 Miután elkészült szükséged lesz az External Database URL-re, Username, Database, Password-re.
 
@@ -367,6 +371,7 @@ Terminálban, csatlakoztasd Postgres-t a render.com-os adatbázissal
 psql -h "@-utáni résztől....frankfurt-postgres.render.com-ig" -U "Username" -d "Database"
 Entert nyomj.
 pl.: psql -h dpg-d69k87buibrs739i5fu0-a.frankfurt-postgres.render.com -U database_olpd_user -d database_olpd
+
 A jelszónak az oldalon lévő password-t másold be. Nem fogja mutatni. Majd entert nyomj.
 
 Adatbázis létrehozása a terminálban:
