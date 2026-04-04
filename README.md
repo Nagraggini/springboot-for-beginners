@@ -1,3 +1,14 @@
+![Top Language](https://img.shields.io/github/languages/top/Nagraggini/springboot-for-beginners)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+<!--TODO -->
+<!--
+![Build Status](https://github.com/Nagraggini/REPO/actions/workflows/main.yml/badge.svg)
+![Coverage](https://img.shields.io/codecov/c/github/Nagraggini/springboot-for-beginners)
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/Nagraggini/springboot-for-beginners)
+![Node Version](https://img.shields.io/node/v/springboot-for-beginners)
+-->
+
 # Spring Boot for Beginners
 
 🔗 [Visit the live site](https://springboot-for-beginners.onrender.com)
