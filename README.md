@@ -36,4 +36,4 @@ Célja, hogy érthetően elmagyarázza, hogyan lehet modern, Java alapú webalka
 
 🔗 [Látogasd meg az oldalamat.](https://springboot-for-beginners.onrender.com)
 
-🔗 [Kezdőknek szóló blogom.](https://nagraggini-blog.onrender.com/)
+🔗 [Kezdőknek szóló könyvem.](https://nagraggini.github.io/my-awesome-book/)
